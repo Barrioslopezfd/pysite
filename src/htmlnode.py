@@ -11,7 +11,7 @@ class HTMLNode():
         self.props = props
 
     def __repr__(self) -> str:
-        return f'tag={self.tag}, value={self.value}, children={self.children}, props={self.props}\n'
+        return f'HTMLNode({self.tag}, {self.value}, children: {self.children}, {self.props})'
 
     def to_html(self):
         raise NotImplementedError('am not an implemented boi')
