@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode
+from htmlnode import HTMLNode, LeafNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_to_html_props(self):
@@ -49,6 +49,23 @@ class TestHTMLNode(unittest.TestCase):
             "HTMLNode(p, What a strange world, children: None, {'class': 'primary'})",
         )
 
-        
+    def test_to_html_no_children(self):
+        node=LeafNode("p", "This is a paragraph of text.", None)
+        self.assertEqual(node.to_html(), "<p>This is a paragraph of text.</p>")
+
+    def test_to_html_no_children_no_prop(self):
+        node=LeafNode("p", "This is a paragraph of text.", {})
+        self.assertEqual(node.to_html(), "<p>This is a paragraph of text.</p>")
+
+    def test_to_html_props(self):
+        node=LeafNode("a", "Click me!", {"href": "https://www.google.com"})
+        self.assertEqual(node.to_html(), '<a href="https://www.google.com">Click me!</a>')
+
+    def test_no_tag(self):
+        node=LeafNode(None, 'This is a none tagged test', None)
+        self.assertEqual(node.to_html(), 'This is a none tagged test')
+
+
+
 if __name__ == "__main__":
     unittest.main()
