@@ -8,7 +8,6 @@ def markdown_to_blocks(markdown):
 
     for i in range(len(split_document)):
         split_document[i] = split_document[i].strip()
-
     return split_document
 
 
@@ -20,9 +19,7 @@ def block_to_block_type(block: str) -> str:
     code = r"^```[\s\S]+?```$"
     quote = r"^> .+$"
     unordered_list = r"^[-*] .+$"
-    ordered_list = r"^\d .$"
-
-    print(block)
+    ordered_list = r"^\d+\. .+$"
 
     if re.findall(heading, block):
         type_of_block = "heading"
@@ -33,15 +30,16 @@ def block_to_block_type(block: str) -> str:
         type_of_block = "quote"
     if re.findall(unordered_list, block, re.MULTILINE):
         type_of_block = "unordered_list"
-    if re.findall(ordered_list, block):
+    if re.findall(ordered_list, block, re.MULTILINE):
         ol = block.split("\n")
         aux = 1
-        list_is_ordered = False
+        list_is_ordered = True
         for element in ol:
-            if element[0] == aux:
-                if aux == len(ol):
-                    list_is_ordered = True
-                aux += 1
+            print("FIRST ELEMENTASD", element[0])
+            if not element.startswith(str(aux)):
+                print(aux, element)
+                list_is_ordered = False
+            aux += 1
         if list_is_ordered:
             type_of_block = "ordered_list"
 
