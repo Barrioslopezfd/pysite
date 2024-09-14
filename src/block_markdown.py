@@ -28,7 +28,6 @@ def block_to_block_type(block: str) -> str:
         type_of_block = "heading"
     if re.findall(code, block, re.MULTILINE):
         type_of_block = "code"
-
     if re.findall(quote, block, re.MULTILINE):
         type_of_block = "blockquote"
     if re.findall(unordered_list, block, re.MULTILINE):
@@ -65,6 +64,8 @@ def markdown_to_html_node(markdown: str) -> ParentNode:
             node_list.append(list_to_html(m, block_type))
         elif block_type == "blockquote":
             node_list.append(blockquote_to_htmlnode(m))
+        elif block_type == "code":
+            node_list.append(code_to_htmlnode(m))
         else:
             raise ValueError("Invalid text type")
     return ParentNode("div", node_list, None)
@@ -86,6 +87,25 @@ def list_to_html(lista, type):
             return unordered_list_to_html(element)
         elif type == "ordered_list":
             return ordered_list_to_html(element)
+
+
+def heading_to_htmlnode(amnt: int, heading: str):
+    md = heading[amnt + 1 :]
+    md = text_to_textnodes(md)
+    for i in range(len(md)):
+        md[i] = md[i].text_node_to_html_node()
+    return ParentNode(f"h{amnt}", md, None)
+
+
+def code_to_htmlnode(code):
+    md = code.split("\n")
+    md = md[1:-1]
+    md = "\n".join(md)
+    code_node = []
+    parent_node = []
+    code_node.append(LeafNode(None, md, None))
+    parent_node.append(ParentNode("code", code_node, None))
+    return ParentNode("pre", parent_node, None)
 
 
 def unordered_list_to_html(ul):
@@ -127,14 +147,6 @@ def blockquote_to_htmlnode(blockquote: str):
     for i in range(len(md)):
         md[i] = md[i].text_node_to_html_node()
     return ParentNode("blockquote", md, None)
-
-
-def heading_to_htmlnode(amnt: int, heading: str):
-    md = heading[amnt + 1 :]
-    md = text_to_textnodes(md)
-    for i in range(len(md)):
-        md[i] = md[i].text_node_to_html_node()
-    return ParentNode(f"h{amnt}", md, None)
 
 
 def paragraph_to_htmlnode(paragraph: str):
