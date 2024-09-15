@@ -1,8 +1,8 @@
-# Tolkien Fan Club
+# Branderson Fan Club
 
-**I like Tolkien**. Read my [first post here](/majesty)
+**I like Brand**. Read my [first post here](/majesty)
 
-> All that is gold does not glitter
+> All that is gold does glitter
 
 ## Reasons I like Tolkien
 
