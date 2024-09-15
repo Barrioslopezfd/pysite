@@ -5,13 +5,35 @@ from textnode import *
 
 class TestMDNode(unittest.TestCase):
     def test_bold(self):
-        node = TextNode("This is text with a **bolded** word", text_type_text)
-        new_nodes = split_nodes_delimiter([node], "**", text_type_bold)
+        node = [
+            TextNode("**This like Tolkien**. with a **bolded** word", text_type_text)
+        ]
+        new_nodes = split_nodes_delimiter(node, "**", text_type_bold)
         self.assertListEqual(
             [
-                TextNode("This is text with a ", text_type_text),
+                TextNode("This like Tolkien", text_type_bold),
+                TextNode(". with a ", text_type_text),
                 TextNode("bolded", text_type_bold),
                 TextNode(" word", text_type_text),
+            ],
+            new_nodes,
+        )
+
+    def test_bolded_tolkien(self):
+        node = [
+            TextNode(
+                "**I like Tolkien**. read my [first post here](/majesty) (sorry the link doesn't work yet)",
+                text_type_text,
+            )
+        ]
+        new_nodes = split_nodes_delimiter(node, "**", text_type_bold)
+        self.assertListEqual(
+            [
+                TextNode("I like Tolkien", text_type_bold),
+                TextNode(
+                    ". read my [first post here](/majesty) (sorry the link doesn't work yet)",
+                    text_type_text,
+                ),
             ],
             new_nodes,
         )
